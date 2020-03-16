@@ -16,3 +16,19 @@ def show_ask(request):
 
 def show_question(request):
     return render(request, "question.html", {})
+
+
+def show_tag(request):
+    return render(request, "tag.html", {})
+
+
+def show_settings(request):
+    return render(request, "settings.html", {})
+
+
+def show_login(request):
+    return render(request, "login.html", {})
+
+
+def show_register(request):
+    return render(request, "register.html", {})
