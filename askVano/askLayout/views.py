@@ -32,3 +32,14 @@ def show_login(request):
 
 def show_register(request):
     return render(request, "register.html", {})
+
+
+def show_hot(request):
+    questions = []
+    for i in range(1, 30):
+        questions.append({
+            'title': 'title ' + str(i),
+            'id': i,
+            'text': 'text' + str(i)
+        })
+    return render(request, "questions.html", {})

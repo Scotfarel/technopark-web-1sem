@@ -21,7 +21,7 @@
         </div>
         <div class="col-7">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#" style="padding-top: 7px;">AskVano</a>
+                <a class="navbar-brand" href="{% url 'questions' %}" style="padding-top: 7px;">AskVano</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Ask me if you can!"
                            aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ask!</button>
+                    <a href="{% url 'ask' %}" class="btn btn-outline-success my-2 my-sm-0" role="button" aria-pressed="true"> Ask! </a>
                 </form>
                 <img src="https://gamepedia.cursecdn.com/stalker_ru_gamepedia/thumb/f/f5/Vano_face.jpg/300px-Vano_face.jpg?version=76de5b552f817c469f5f7a1d5dee6c6e"
                      width="30" height="30"
@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mt">
                             <div class="col-6">
-                                settings
+                                <a href="{% url 'settings' %}"> settings </a>
                             </div>
                             <div class="col-6">
                                 log out
@@ -73,13 +73,13 @@
                             <h3>Popular Tags</h3>
                         </div>
                         <div class="row" style="margin-bottom:1em;">
-                            <h6 style="margin-right:1em;"> Forgotten PDA </h6>
-                            <h6 style="margin-right:1em;"> Pripyat </h6>
-                            <h6 style="margin-right:1em;"> Lost weapon </h6>
-                            <h6 style="margin-right:1em;"> Arena </h6>
-                            <h6 style="margin-right:1em;"> Monolith </h6>
-                            <h6 style="margin-right:1em;"> Strelok </h6>
-                            <h6 style="margin-right:1em;"> Artifacts </h6>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Forgotten PDA </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Pripyat </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Lost weapon </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Arena </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Monolith </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Strelok </a>
+                            <a class="tag_name" href="{% url 'tag' %}" style="margin-right:1em;"> Artifacts </a>
                         </div>
                     </div>
                 </div>
