@@ -14,16 +14,19 @@ class PostManager(models.Manager):
 
 
 class User(AbstractUser):
-    nickname = models.CharField(20)
+    nickname = models.CharField(max_length=20)
     rating = models.IntegerField(default=0)
     avatar = models.ImageField(
         upload_to='avatar/',
         default='avatar/Vano.jpg'
     )
 
+    def __str__(self):
+        return f'{self.nickname}'
+
 
 class Tag(models.Model):
-    name = models.CharField(20)
+    name = models.CharField(max_length=20)
 
 
 class Question(models.Model):
