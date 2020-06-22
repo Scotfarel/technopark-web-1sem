@@ -12,12 +12,12 @@
                              style="max-width: 6em; max-height: 6em; margin-bottom: 8px; margin-top: 8px; border:1px solid black; border-radius: 10%;">
                     </div>
                     <div class="row justify-content-center">
-                        - {{question.rate}} +
+                        - {{question.likes_count}} +
                     </div>
                 </div>
                 <div class="col-9">
                     <div class="row">
-                        <h3 style="text-decoration: underline;"> {{question.title}} </h3>
+                        <h3> <a href="{% url 'question' question.id %}" style="text-decoration: underline;"> {{question.title}}</a> </h3>
                     </div>
                     <div class="row">
                         <p> {{question.text}}</p>
