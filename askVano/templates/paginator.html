@@ -1,0 +1,13 @@
+<div class="row justify-content-center pag">
+    <ul class="pagination">
+        {%if objects.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">first</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number}}">previous</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link">{{ objects.number }}</a></li>
+        {% if objects.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}">next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ objects.paginator.num_pages }}">last</a></li>
+        {% endif %}
+    </ul>
+</div>

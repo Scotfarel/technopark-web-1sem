@@ -1,9 +1,36 @@
+from .forms import *
+
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader
+from django.core.paginator import Paginator
+
+
+def paginate(objects, request, n):
+    paginator = Paginator(objects, n)
+    page = request.GET.get('page')
+    objects_page = paginator.get_page(page)
+    return objects_page
 
 
 def show_questions(request):
-    return render(request, "questions.html", {})
+    questions = Question.objects.new()
+    return render(request, 'questions.html', {'questions': paginate(questions, request, 3)})
+
+
+def show_hot(request):
+    questions = Question.objects.top()
+    return render(request, 'hot.html', {'questions': paginate(questions, request, 3)})
+
+
+def show_tag(request, id):
+    questions = Question.objects.tag(id)
+    template = loader.get_template('tag.html')
+    context = {
+        'questions': paginate(questions, request, 4),
+        'tag': Tag.objects.get(id=id)
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def show_base(request):
@@ -18,10 +45,6 @@ def show_question(request):
     return render(request, "question.html", {})
 
 
-def show_tag(request):
-    return render(request, "tag.html", {})
-
-
 def show_settings(request):
     return render(request, "settings.html", {})
 
@@ -33,13 +56,3 @@ def show_login(request):
 def show_register(request):
     return render(request, "register.html", {})
 
-
-def show_hot(request):
-    questions = []
-    for i in range(1, 30):
-        questions.append({
-            'title': 'title ' + str(i),
-            'id': i,
-            'text': 'text' + str(i)
-        })
-    return render(request, "questions.html", {})
