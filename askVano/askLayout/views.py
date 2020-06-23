@@ -1,15 +1,13 @@
 from django.contrib.auth import logout, login, authenticate
-from django.db import connection
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
-
-from .models import *
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.contrib.auth.decorators import permission_required, login_required
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.template import loader
+from django.contrib import messages
+
 from .forms import *
-from django.contrib import messages, auth
 
 
 def paginate(objects, request, n):
@@ -64,10 +62,10 @@ def show_login(request):
     return render(request, 'login.html', {'form': form})
 
 
-def fillErrors(formErrors, errors):
-    for i in formErrors:
+def fill_errors(form_errors, errors):
+    for i in form_errors:
         formattedFieldName = i.replace('_', ' ')
-        errors.append(f' {formattedFieldName} field error: {formErrors[i][0]}')
+        errors.append(f' {formattedFieldName} field error: {form_errors[i][0]}')
 
 
 def show_registration(request):
@@ -84,7 +82,7 @@ def show_registration(request):
             login(request, user)
             return redirect('index')
         else:
-            fillErrors(form.errors, errors)
+            fill_errors(form.errors, errors)
     else:
         logout(request)
 

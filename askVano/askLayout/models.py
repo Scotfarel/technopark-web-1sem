@@ -2,7 +2,7 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Count, Sum
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 
 
@@ -24,21 +24,6 @@ class ModelManager(models.Manager):
 
     def new(self):
         return self.order_by()[::-1]
-
-    # def sum_for_question(self, q):
-    #     res = self.self.filter(question=q).aggregate(sum=Sum('value'))['sum']
-    #     return res if res else 0
-    #
-    # def add_or_update(self, owner, question, value):
-    #     obj, new = self.update_or_create(
-    #         owner=owner,
-    #         question=question,
-    #         defaults={'value': value}
-    #     )
-    #
-    #     question.rate = self.sum_for_question(question)
-    #     question.save()
-    #     return new
 
 
 class Tag(models.Model):
