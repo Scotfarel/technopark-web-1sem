@@ -2,6 +2,8 @@ from django.contrib.auth import logout, login, authenticate
 from django.db import connection
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect
+from django.urls import reverse
+
 from .models import *
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib.auth.decorators import permission_required, login_required
@@ -19,19 +21,18 @@ def paginate(objects, request, n):
 
 @login_required(login_url='login')
 def show_ask(request):
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         form = AskForm(data=request.POST)
         if form.is_valid:
             question = form.save(commit=False)
             question.author = request.user
             question.save()
-            for tag in form['tag_list'].data.split():
+            for tag in form['tags'].data.split():
                 new_tag = Tag.objects.get_or_create(name=tag)
-                print(new_tag)
-                question.tag.add(new_tag[0])
+                question.tags.add(new_tag[0])
             question.save()
             return redirect('question', question.id)
-    if (request.method == 'GET'):
+    if request.method == 'GET':
         form = AskForm()
     return render(request, 'ask.html', {'form': form})
 
@@ -39,13 +40,6 @@ def show_ask(request):
 def show_index(request):
     questions = Question.objects.new()
     return render(request, 'index.html', {'questions': paginate(questions, request, 4)})
-    pass
-
-
-def show_my_questions(request):
-    questions = Question.objects.my_question(id=request.user.id)
-    return render(request, 'my_questions.html', {'questions': paginate(questions, request, 4)})
-    pass
 
 
 def show_hot(request):
@@ -55,12 +49,11 @@ def show_hot(request):
 
 def show_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
-        if user and user.is_active:
+        if user:
             login(request, user)
             return redirect('index')
         else:
@@ -99,7 +92,7 @@ def show_registration(request):
 
 
 def show_question(request, id, page=1):
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         form = AnswerForm(data=request.POST)
         if form.is_valid:
             answer = form.save(commit=False)
@@ -108,8 +101,9 @@ def show_question(request, id, page=1):
             answer.question = Question.objects.get(id=id)
             answer.save()
             paginator = Paginator(Answer.objects.answer(id), 3)
-            return redirect('question', id, paginator.num_pages)
-    if (request.method == 'GET'):
+            return redirect(reverse('question') + id + '?page=%s' % paginator.num_pages)
+
+    if request.method == 'GET':
         form = AnswerForm()
         template = loader.get_template('question.html')
         answers = Answer.objects.answer(id)
@@ -121,13 +115,13 @@ def show_question(request, id, page=1):
 
 @login_required(login_url='login')
 def show_settings(request):
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         form = SettingsForm(data=request.POST, files=request.FILES, instance=request.user)
         if form.is_valid:
             user = form.save(commit=False)
             user.save()
         return render(request, 'settings.html', {'form': form})
-    if (request.method == 'GET'):
+    if request.method == 'GET':
         form = SettingsForm(instance=request.user)
         return render(request, 'settings.html', {'form': form})
 

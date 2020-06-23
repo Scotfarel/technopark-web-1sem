@@ -2,13 +2,16 @@
 
 {% block content %}
 {% load bootstrap4 %}
-
-<form enctype="multipart/form-data" method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-        <button type="submit" class="btn btn-success">Register!</button>
-    {% endbuttons %}
-</form>
+<div class="col-md-8 blog-main">
+    <div class="row qtype" style="padding-bottom: 10px;">
+        <form enctype="multipart/form-data" method="post" class="form" style="padding-left: 120px; width: 700px;">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-success">Register!</button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
 
 {% endblock %}

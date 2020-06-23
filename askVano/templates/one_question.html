@@ -12,7 +12,13 @@
                              style="max-width: 6em; max-height: 6em; margin-bottom: 8px; margin-top: 8px; border:1px solid black; border-radius: 10%;">
                     </div>
                     <div class="row justify-content-center">
-                        - {{question.likes_count}} +
+                        <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', -1)">
+                        -
+                        </button>
+                        {{question.likes_count}}
+                        <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', 1)">
+                        +
+                        </button>
                     </div>
                 </div>
                 <div class="col-9">
@@ -24,7 +30,7 @@
                     </div>
                     <div class="row mb-0">
                         <div class="col-4">
-                            <u>answer(0)</u>
+                            <u><a href="{% url 'question' question.id %}" style="text-decoration: underline;"> answer </a></u>
                         </div>
                         <div class="col-8">
                             Tags:

@@ -17,8 +17,14 @@ padding-left: 15px;">
                      class="userpic"
                      style="max-width: 10em; max-height: 10em; margin-bottom: 8px; margin-top: 8px; border:1px solid black; border-radius: 10%;">
             </div>
-            <div class="row" style="padding-left: 75px;">
-                - {{question.likes_count}} +
+            <div class="row" style="padding-left: 50px;">
+                <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', -1)">
+                    -
+                </button>
+                {{question.likes_count}}
+                <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', 1)">
+                    +
+                </button>
             </div>
         </div>
         <div class="col-8" style="margin-top: 30px;">
@@ -47,7 +53,7 @@ padding-left: 15px;">
     {% include "paginator.html" with objects=answers %}
 
 
-
+    {% if user.is_authenticated and user.is_active %}
     {% load bootstrap4 %}
 
     <form method="post" class="form">
@@ -57,6 +63,7 @@ padding-left: 15px;">
         <button type="submit" class="btn btn-success">Answer!</button>
         {% endbuttons %}
     </form>
+    {% endif %}
 </div>
 
 {% endblock %}

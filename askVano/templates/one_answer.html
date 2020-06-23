@@ -11,7 +11,13 @@
                  style="max-width: 6em; max-height: 6em; margin-bottom: 8px; margin-top: 8px; border:1px solid black; border-radius: 10%;">
         </div>
         <div class="row justify-content-center">
-            - {{answer.likes_count}} +
+            <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', -1)">
+                -
+            </button>
+            {{answer.likes_count}}
+            <button class="like_button" style="float:left" onclick="create_like({{question.id}}, 'question', +1)">
+                +
+            </button>
         </div>
     </div>
     <div class="col-9">

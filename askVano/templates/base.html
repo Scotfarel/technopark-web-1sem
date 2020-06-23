@@ -40,16 +40,25 @@
                 <img src="https://gamepedia.cursecdn.com/stalker_ru_gamepedia/thumb/f/f5/Vano_face.jpg/300px-Vano_face.jpg?version=76de5b552f817c469f5f7a1d5dee6c6e"
                      width="30" height="30"
                      class="d-inline-block align-top" alt="" style="margin-left: 30px;">
-                @VanoTheStalker
+                {% if user.is_authenticated and user.is_active %} @{{ user.username }} {% else %} @VanoTheStalker {% endif %}
                 <div class="navbar-item nav-custom-item">
                     <div class="container-fluid">
                         <div class="row mt">
+                            {% if user.is_authenticated and user.is_active %}
                             <div class="col-6">
                                 <a href="{% url 'settings' %}"> settings </a>
                             </div>
                             <div class="col-6">
-                                log out
+                                <a href="{% url 'logout' %}"> log out </a>
                             </div>
+                            {% else %}
+                            <div class="col-6">
+                                <a href="{% url 'login' %}"> log in </a>
+                            </div>
+                            <div class="col-6">
+                                <a href="{% url 'registration' %}"> register </a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

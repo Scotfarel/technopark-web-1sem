@@ -2,7 +2,7 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Count, Sum, ImageField
+from django.db.models import Count, Sum
 from django.shortcuts import get_object_or_404
 
 
@@ -11,21 +11,12 @@ class ModelManager(models.Manager):
         self.qs = self.get_queryset()
         return self
 
-    def get_query(self):
-        return self.qs
-
-    def with_answers_count(self):
-        return self.annotate(answers_count=Count('answer__id', distinct=True))
-
     def top(self):
         return self.init().order_by('-rate')
 
     def tag(self, id):
         tags = get_object_or_404(Tag, pk=int(id))
         return self.filter(tags__id=tags.id)
-
-    def my_question(self, id):
-        return self.filter(author__id=id)
 
     def answer(self, id):
         question = get_object_or_404(Question, pk=int(id))
@@ -34,20 +25,20 @@ class ModelManager(models.Manager):
     def new(self):
         return self.order_by()[::-1]
 
-    def sum_for_question(self, q):
-        res = self.self.filter(question=q).aggregate(sum=Sum('value'))['sum']
-        return res if res else 0
-
-    def add_or_update(self, owner, question, value):
-        obj, new = self.update_or_create(
-            owner=owner,
-            question=question,
-            defaults={'value': value}
-        )
-
-        question.rate = self.sum_for_question(question)
-        question.save()
-        return new
+    # def sum_for_question(self, q):
+    #     res = self.self.filter(question=q).aggregate(sum=Sum('value'))['sum']
+    #     return res if res else 0
+    #
+    # def add_or_update(self, owner, question, value):
+    #     obj, new = self.update_or_create(
+    #         owner=owner,
+    #         question=question,
+    #         defaults={'value': value}
+    #     )
+    #
+    #     question.rate = self.sum_for_question(question)
+    #     question.save()
+    #     return new
 
 
 class Tag(models.Model):
@@ -56,7 +47,7 @@ class Tag(models.Model):
 
 class Profile(AbstractUser):
     nickname = models.CharField(max_length=200)
-    avatar_path = models.ImageField(upload_to='avatars', default='cat_wanna_know.jpg')
+    avatar_path = models.ImageField(upload_to='avatars', default='ava4me')
 
     class Meta:
         verbose_name = 'Profile'
@@ -93,9 +84,6 @@ class LikeDislike(models.Model):
     def save(self, *args, **kwargs):
         self.content_object.like(self)
         super(LikeDislike, self).save(*args, **kwargs)
-
-    # class Meta:
-    #     unique_together = (('author', 'content_type', 'object_id'),)
 
 
 class Question(models.Model):

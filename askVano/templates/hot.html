@@ -10,6 +10,10 @@
         <div class="col-4">
             <h4>Hot Questions</h4>
         </div>
+        <div class="col-8">
+            <h5><a href="{% url 'index'%}" style="text-decoration: underline;">
+                    New Questions</a></h5>
+        </div>
     </div>
 
     {% for question in questions %}

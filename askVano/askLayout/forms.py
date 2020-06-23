@@ -1,6 +1,7 @@
+from .models import *
+
 from django import forms
 from django.forms import CharField, EmailField
-from .models import *
 
 
 class SignupForm(forms.ModelForm):
